@@ -1,0 +1,36 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Produto produtoAlterar = ViewBag.Produto;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Alterar</title>
+</head>
+<body>
+
+    <form asp-action="AlterarObjetoDb" method="post">
+
+       
+        <input  type="hidden" name="hdnId" value="@produtoAlterar.IdProduto" readonly=""/> <br />
+
+        <label> Nome:</label>
+        
+        <input type="text" name="txtNome" value="@produtoAlterar.Nome" /> <br />
+        <label> Descricao:</label>
+        <input type="text" name="txtDescricao" value="@produtoAlterar.Descricao" /><br />
+        <label> Preço:</label>
+        <input type="text" name="txtPreco" value="@produtoAlterar.Preco " /><br />
+        <label> Quantidade:</label>
+        <input type="text" name="txtQuantidade" value="@produtoAlterar.Quantidade" /><br />
+
+        <input type="submit" value="AlterarObjetoDb" />
+    </form>
+
+</body>
+</html>

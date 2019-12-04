@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+@model Produto
+
+
+<form asp-action="Cadastrar" method="post">
+
+    <fieldset>
+        <legend>Cadastrar Produto</legend>
+        @* Codigo responsavel para padronizar esteticamente as mensagens *@
+        <div asp-validation-summary="ModelOnly" class="text-danger" />
+
+        @* <label>Nome:</label> foi alterado para: *@
+        <label asp-for="Nome"></label>
+        <div class="form-group" id="Nome">
+            <input type="text" asp-for="Nome" class="form-control" />
+            @* Validação - Mensagem de erro *@
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+        <div class="form-group" id="Descricao">
+            <label asp-for="Descricao"></label>
+            <input type="text" asp-for="Descricao" class="form-control" />
+            @* Validação -  Mensagem de erro *@
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+
+        </div>
+        <div class="form-group" id="Preco">
+            <label asp-for="Preco"></label>
+            <input type="text" asp-for="Preco" class="form-control" />
+            @* Validação - Mensagem de erro *@
+            <span asp-validation-for="Preco" class="text-danger"></span>
+        </div>
+        <div class="form-group" id="Quantidade">
+            <label asp-for="Quantidade"></label>
+            <input type="text" asp-for="Quantidade" class="form-control" />
+            @* Validação - Mensagem de erro *@
+            <span asp-validation-for="Quantidade" class="text-danger"></span>
+        </div>
+        <input type="submit"
+               value="Cadastrar" class="btn btn-secondary" />
+    </fieldset>
+</form>

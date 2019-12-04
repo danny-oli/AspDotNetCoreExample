@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<Produto> produtos = ViewBag.Produtos;
+    DateTime dataHora = ViewBag.DataHora;
+}
+
+<!DOCTYPE html>
+
+
+
+    <div class="m-5">
+        <h2>Gerenciamento de Produtos</h2>
+        <a class="btn btn-secondary" asp-action="Cadastrar">Cadastrar Produto</a>
+        <br />
+        <table class="table table-hover" style="margin-top:15px">
+            <thead>
+                <tr class="table-dark">
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Criado em</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Produto p in produtos)
+                {
+                    <tr class="table-dark">
+                        <td>@p.Nome</td>
+                        <td>@p.Descricao</td>
+                        <td>@p.Preco.Value.ToString("C2")</td>
+                        <td>@p.Quantidade</td>
+                        <td>@p.CriadoEm</td>
+                        <td>
+                            <a asp-action="Remover" asp-route-id="@p.IdProduto">Remover</a>
+                        </td>
+                        <td>
+                            <a asp-action="Alterar" asp-route-id="@p.IdProduto">Alterar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <p>
+            <b>Dados atualizados em: </b> @dataHora
+        </p>
+    </div>
+
+
+

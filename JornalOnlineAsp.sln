@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JornalOnline", "Ecommerce\JornalOnline.csproj", "{EC810923-7D59-4AB7-A083-8B19C1C95D97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "ClassLibrary1\Domain.csproj", "{7EC1AA95-7AE4-43E0-B8CD-1A37AD3C591D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{8A4832A3-29C6-4BD2-BFA2-88B0506BD231}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC810923-7D59-4AB7-A083-8B19C1C95D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC810923-7D59-4AB7-A083-8B19C1C95D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC810923-7D59-4AB7-A083-8B19C1C95D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC810923-7D59-4AB7-A083-8B19C1C95D97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EC1AA95-7AE4-43E0-B8CD-1A37AD3C591D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EC1AA95-7AE4-43E0-B8CD-1A37AD3C591D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EC1AA95-7AE4-43E0-B8CD-1A37AD3C591D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EC1AA95-7AE4-43E0-B8CD-1A37AD3C591D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A4832A3-29C6-4BD2-BFA2-88B0506BD231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A4832A3-29C6-4BD2-BFA2-88B0506BD231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A4832A3-29C6-4BD2-BFA2-88B0506BD231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A4832A3-29C6-4BD2-BFA2-88B0506BD231}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2B5B8F7-11DD-4D09-9FEE-7111303604BC}
+	EndGlobalSection
+EndGlobal
