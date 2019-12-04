@@ -38,16 +38,36 @@ namespace JornalOnline.Controllers
 
 
         [HttpPost]
-        public IActionResult CadastrarCliente(Pessoa p)
+        public IActionResult CadastrarCliente(Cliente c)
         {
-            if (_pessoaDAO.CadastrarPessoa(p))
+            if (_pessoaDAO.CadastrarPessoa(c))
             {
                 return RedirectToAction("Index","Home");
 
             }
             //enviar mensagem para a tela
             ModelState.AddModelError("", "Um produto já foi cadastrado com este Nome");
-            return View(p);
+            return View(c);
+            //return View();
+        }
+
+        public IActionResult CadastrarColunista()
+        {
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult CadastrarColunista(Colunista c)
+        {
+            if (_pessoaDAO.CadastrarPessoa(c))
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
+            //enviar mensagem para a tela
+            ModelState.AddModelError("", "Esta pessoa ja foi cadastrada.");
+            return View(c);
             //return View();
         }
 
