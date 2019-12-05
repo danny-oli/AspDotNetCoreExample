@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    @model Pessoa
+}
+
+<h2>Login Cliente</h2>
+
+<form  method="post">
+
+<fieldset>
+    <br />
+    <br />
+    <br />
+    <legend>Faça seu Login abaixo:</legend>
+    @* Codigo responsavel para padronizar esteticamente as mensagens *@
+    <div asp-validation-summary="ModelOnly" class="text-danger" />
+    @* <label>Nome:</label> foi alterado para: *@
+    <label asp-for="CPf"></label>
+    <div class="form-group" id="CPf">
+        <input type="text" asp-for="CPf" class="form-control" />
+        @* Validação - Mensagem de erro *@
+        <span asp-validation-for="CPf" class="text-danger"></span>
+    </div>
+    <label asp-for="Password"></label>
+    <div class="form-group" id="Password">
+        <input type="text" asp-for="Password" class="form-control" />
+        @* Validação - Mensagem de erro *@
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <input asp-controller="Pessoa" asp-action="HomeCliente" type="submit" value="Login" class="btn btn-secondary" />
+
+  
+
+</fieldset>
+</form>
+
+

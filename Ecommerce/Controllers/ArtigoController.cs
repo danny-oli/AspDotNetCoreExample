@@ -13,11 +13,13 @@ namespace JornalOnline.Controllers
     {
         private readonly ArtigoDAO _artigoDAO;
         private readonly TemaDAO _temaDAO;
+        private readonly PessoaDAO _pessoaDAO;
 
-        public ArtigoController(ArtigoDAO artigoDAO, TemaDAO temaDAO)
+        public ArtigoController(ArtigoDAO artigoDAO, TemaDAO temaDAO, PessoaDAO pessoaDAO)
         {
             _artigoDAO = artigoDAO;
             _temaDAO = temaDAO;
+            _pessoaDAO = pessoaDAO;
         }
 
         public IActionResult Index()
@@ -30,35 +32,26 @@ namespace JornalOnline.Controllers
         {
             return View();
         }
-        
-        //[HttpPost]
-        //public IActionResult CadastrarArtigo(Artigo a, int drpTema)
-        //{
-        //    ViewBag.Temas = new SelectList
-        //        (_temaDAO.ListarTemas(), "IdTema",
-        //        "tema");
 
-        //    a.Tema = _temaDAO.BuscarTemaPorId(drpTema);
-        //    if (_artigoDAO.CadastrarArtigo(a))
-        //    {
-        //        return View("HomeColunista", "Pessoa");
-        //    }
-        //    else
-        //    {
-        //        ModelState.AddModelError ("", "Esse produto já existe!");
-        //        return View(a);
-        //    }
-
-        //    //return View();
-        //}
-
-        [HttpPost]        
-        public IActionResult CadastroArtigo(Artigo a)
+        [HttpPost]
+        public IActionResult CadastroArtigo(Pessoa p)
         {
-           
+
+            
+            ViewBag.ColunistaID = p.PessoaId;
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult CadastrarArtigo(Artigo a)
+        {
+
+
+            //a.ColunistaAutor = _pessoaDAO.BuscarPessoaPorCpf(cpfColunista);
             if (_artigoDAO.CadastrarArtigo(a))
             {
-                return RedirectToAction("HomeColunista", "Pessoa");
+                return View("HomeColunista", "Pessoa");
             }
             else
             {
@@ -68,6 +61,8 @@ namespace JornalOnline.Controllers
 
             //return View();
         }
+
+     
 
         public IActionResult ListarArtigosCadastrados()
         {

@@ -2,20 +2,19 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    @model Colunista
+    @model Pessoa
 }
 
 <h2>Home Colunista</h2>
 
-<fieldset>
-        <a href="http://localhost:58648/Artigo/CadastroArtigo">
+<form method="post">
+    <fieldset>
+        
             <input asp-action="CadastroArtigo" asp-controller="Artigo" type="submit" value="Cadastrar Artigo" class="btn btn-success" />
-        </a>
+        
 
-
-
-    <input type="submit" class="btn btn-success" value="Listar Artigos Cadastrados" asp-action="ListarArtigosCadastrados"
-           asp-controller="Artigo" />
-</fieldset>
-
+        <input type="submit" class="btn btn-success" value="Listar Artigos Cadastrados" asp-action="ListarArtigosCadastrados"
+               asp-controller="Artigo" />
+    </fieldset>
+</form>
 

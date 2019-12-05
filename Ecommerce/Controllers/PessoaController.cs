@@ -1,5 +1,12 @@
-﻿using Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Repository;
 
 namespace JornalOnline.Controllers
@@ -7,17 +14,52 @@ namespace JornalOnline.Controllers
     public class PessoaController : Controller
     {
         private readonly PessoaDAO _pessoaDAO;
+        private readonly UserManager<UsuarioLogado> userManager;
+        private readonly SignInManager<UsuarioLogado> signInManager;
 
-        public PessoaController(PessoaDAO pessoaDAO)
+        public PessoaController(PessoaDAO pessoaDAO, UserManager<UsuarioLogado> u, SignInManager<UsuarioLogado> s)
         {
             _pessoaDAO = pessoaDAO;
+            userManager = u;
+            signInManager = s;
         }
 
         public IActionResult Index()
         {
-           
-            return View();
+
+            // ViewBag.Pessoa = _pessoaDAO.BuscarPessoaPorCpf(userManager.GetUserName(User));
+            return View(_pessoaDAO.ListarPessoas());
         }
+
+        public IActionResult Login()
+        {
+            return View("Index", "Home");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Login(Pessoa p)
+        {
+            // var result = await signInManager.PasswordSignInAsync(p.CPf, p.Password, true, lockoutOnFailure: false);
+            // if (result.Succeeded)
+            // {
+
+            Pessoa usuario = _pessoaDAO.BuscarPessoaPorCpf(p.CPf);
+
+            if (usuario.Tipo == "Colunista")
+            {
+                return RedirectToAction("HomeColunista");
+            }
+            else
+            {
+                return RedirectToAction("HomeCliente");
+            }
+            //  }
+
+            ModelState.AddModelError("", "Falha no login");
+            return RedirectToAction("Index", "Home");
+        }
+
 
         public IActionResult HomeColunista()
         {
@@ -25,18 +67,160 @@ namespace JornalOnline.Controllers
             return View();
         }
 
-        public IActionResult CadastroCliente()
+        [HttpPost]
+        public IActionResult HomeColunista(string cpf, string Password)
         {
-            return View();
+            Pessoa pessoa = _pessoaDAO.BuscarPessoaPorCpf(cpf);
+
+            if (pessoa != null)
+            {
+                if (Password == pessoa.Password)
+                {
+                    return View(_pessoaDAO.BuscarPessoaPorCpf(cpf));
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Usuário não encontrado!");
+                return View();
+            }
+            ModelState.AddModelError("", "Usuário não encontrado!");
+            return RedirectToAction("Index", "Home");
         }
-        public IActionResult CadastroColunista()
+
+        public IActionResult HomeCliente()
         {
+
             return View();
         }
 
+        [HttpPost]
+        public IActionResult HomeCliente(string cpf, string password)
+        {
+
+            return View(_pessoaDAO.BuscarPessoaPorCpf(cpf));
+        }
+
+        public IActionResult CadastroCliente()
+        {
+            Pessoa p = new Pessoa();
+            if (TempData["Endereco"] != null)
+            {
+                string resultado = TempData["Endereco"].ToString();
+                Endereco endereco =
+                    JsonConvert.DeserializeObject<Endereco>
+                    (resultado);
+                p.Endereco = endereco;
+            }
+            return View(p);
+        }
+
+
+        public IActionResult CadastroColunista()
+        {
+            Pessoa p = new Pessoa();
+            if (TempData["Endereco"] != null)
+            {
+                string resultado = TempData["Endereco"].ToString();
+                Endereco endereco =
+                    JsonConvert.DeserializeObject<Endereco>
+                    (resultado);
+                p.Endereco = endereco;
+            }
+            else
+            {
+                ModelState.AddModelError("", "Endereço Veio Vazio");
+                return View(p);
+            }
+
+            return View(p);
+        }
+
+        [HttpPost]
+        public IActionResult BuscarCep(Pessoa p)
+        {
+            string url = "https://api.postmon.com.br/v1/cep/" +
+               p.Endereco.Cep;
+            WebClient client = new WebClient();
+            TempData["Endereco"] = client.DownloadString(url);
+
+            return RedirectToAction(nameof(CadastroColunista));
+        }
+
+
+
+        [HttpPost]
+
+        public async Task<IActionResult> CadastroColunistaPost(Pessoa pessoa)
+        {
+            if (pessoa.Tipo == "Colunista")
+            {
+                //Criar um objeto do usuario logado e passar obrigatoriamente email e username
+                UsuarioLogado userLogado = new UsuarioLogado()
+                {
+                    Email = pessoa.Password,
+                    UserName = pessoa.Password
+                };
+                //Cadastra o usuario na tabela do Identity
+                //IdentityResult result = await userManager.CreateAsync(userLogado, pessoa.Password);
+                //Testa o resultado do cadastro
+                // if (result.Succeeded)
+                
+
+
+                    Colunista c1 = new Colunista
+                    {
+                        Nome = pessoa.Nome,
+                        Endereco = pessoa.Endereco,
+                        CPf = pessoa.CPf,
+                        Password = pessoa.Password,
+                        Tipo = pessoa.Tipo
+                    };
+                    if (_pessoaDAO.CadastrarPessoa(c1))
+                    {
+
+                        //Logar usuario no sistema
+                        //await signInManager.SignInAsync(userLogado, isPersistent: false);
+                        return RedirectToAction("HomeColunista");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Cpf já Cadastrado");
+                    }
+
+            }
+            else
+            {
+                    Cliente p1 = new Cliente
+                    {
+                        Nome = pessoa.Nome,
+                        Endereco = pessoa.Endereco,
+                        CPf = pessoa.CPf,
+                        Password = pessoa.Password,
+                        Tipo = pessoa.Tipo
+                    };
+                    if (_pessoaDAO.CadastrarPessoa(p1))
+                    {
+                        //Logar usuario no sistema
+                        //wait signInManager.SignInAsync(userLogado, isPersistent: false);
+                        return RedirectToAction("HomeCliente");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Cpf já Cadastrado");
+                    }
+                
+            }
+
+            return View();
+        }
+
+
+
+
         public IActionResult CadastrarCliente()
         {
-       
+
             //enviar mensagem para a tela
             ModelState.AddModelError("", "Um produto já foi cadastrado com este Nome");
             return View();
@@ -49,7 +233,7 @@ namespace JornalOnline.Controllers
         {
             if (_pessoaDAO.CadastrarPessoa(c))
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
 
             }
             //enviar mensagem para a tela
@@ -58,11 +242,6 @@ namespace JornalOnline.Controllers
             //return View();
         }
 
-        public IActionResult CadastrarColunista()
-        {
-            return View();
-
-        }
 
         [HttpPost]
         public IActionResult CadastrarColunista(Colunista c)
@@ -78,33 +257,8 @@ namespace JornalOnline.Controllers
             //return View();
         }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        public IActionResult Login(int Cpf,  string Password)
-        {
-            Pessoa pessoa = _pessoaDAO.BuscarPessoaPorCpf(Cpf);
 
-            if (pessoa != null)
-            {
-                if (Password == pessoa.Password)
-                {
-                    if (pessoa.Tipo.Equals("Cliente"))
-                    {
-                        return View("HomeCliente");
-                    }
-                    else
-                    {
-                        return View("HomeColunista");
-                    }
-                    
-                }
-            }
-            return View();
-        }
 
 
         public IActionResult CadastrarArtigo()
@@ -119,7 +273,18 @@ namespace JornalOnline.Controllers
             return View();
         }
 
+
+
+
+
+
+
+
+
     }
 
-    
+
+
+
+
 }

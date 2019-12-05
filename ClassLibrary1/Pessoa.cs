@@ -25,10 +25,10 @@ namespace Domain
         [Key]
         public int PessoaId { get; set; }
         public string Nome { get; set; }
-        public int CPf { get; set; }
-        public int Cep { get; set; }
+        public string CPf { get; set; }
         public string Password { get; set; }
         public string Tipo { get; set; }
+        public Endereco Endereco { get; set; }
 
 
 

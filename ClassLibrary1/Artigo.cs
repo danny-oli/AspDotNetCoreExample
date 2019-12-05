@@ -24,7 +24,7 @@ namespace Domain
         [Key]
         public int IdArtigo { get; set; }
         public DateTime CriadoEm { get; set; }
-        public Colunista ColunistaAutor { get; set; }
+        public Pessoa ColunistaAutor { get; set; }
         public Tema Tema { get; set; }
         public string Titulo { get; set; }
         public string Texto { get; set; }

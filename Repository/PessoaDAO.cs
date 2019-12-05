@@ -35,7 +35,7 @@ namespace Repository
         }
 
 
-        public Pessoa BuscarPessoaPorCpf(int cpf)
+        public Pessoa BuscarPessoaPorCpf(string cpf)
         {
             return ctx.Pessoas.FirstOrDefault(x => x.CPf.Equals(cpf));
 

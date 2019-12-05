@@ -5,8 +5,9 @@
     @model Pessoa
 }
 
+<h2>Login Colunista</h2>
 
-<form  method="post">
+<form method="post">
 
     <fieldset>
         <br />
@@ -15,30 +16,22 @@
         <legend>Faça seu Login abaixo:</legend>
         @* Codigo responsavel para padronizar esteticamente as mensagens *@
         <div asp-validation-summary="ModelOnly" class="text-danger" />
-
         @* <label>Nome:</label> foi alterado para: *@
         <label asp-for="CPf"></label>
-        <div class="form-group" id="Cpf">
+        <div class="form-group" id="CPf">
             <input type="text" asp-for="CPf" class="form-control" />
             @* Validação - Mensagem de erro *@
             <span asp-validation-for="CPf" class="text-danger"></span>
         </div>
-
         <label asp-for="Password"></label>
         <div class="form-group" id="Password">
             <input type="text" asp-for="Password" class="form-control" />
             @* Validação - Mensagem de erro *@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
-        <input asp-controller="Pessoa" asp-action="Login" type="submit" value="Login" class="btn btn-secondary" />
+        <input asp-controller="Pessoa" asp-action="HomeColunista" type="submit" value="Login" class="btn btn-secondary" />
 
 
-        <br /><br />
-        <div>
-            <p>Ainda não possui cadastro? </p>
-            
-            <input asp-action="CadastroColunista" asp-controller="Pessoa" type="submit" value="Cadastre-se!" class="btn btn-secondary" />
-        </div>
 
     </fieldset>
 </form>

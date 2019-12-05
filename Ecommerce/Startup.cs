@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Domain;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,12 +30,34 @@ namespace JornalOnline
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             //Configurando a injeção de dependência
+            //services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("JornalOnlineConnection")));
+            services.AddDbContext<Context>
+                (options => options.UseSqlServer
+                (Configuration.GetConnectionString
+                ("JornalOnlineConnection")));
+
+
             services.AddScoped<ProdutoDAO>();
             services.AddScoped<ArtigoDAO>();
             services.AddScoped<ContratacaoDAO>();
             services.AddScoped<PessoaDAO>();
             services.AddScoped<TemaDAO>();
-            services.AddDbContext<Context> (options => options.UseSqlServer(Configuration.GetConnectionString("JornalOnlineConnection")));
+            services.AddHttpContextAccessor();
+
+
+
+
+            //Configurar o Identity na aplicação
+            services.AddIdentity<UsuarioLogado, IdentityRole>().
+                AddEntityFrameworkStores<Context>().
+                AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Usuario/Login";
+                options.AccessDeniedPath = "/Usuario/AcessoNegado";
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
