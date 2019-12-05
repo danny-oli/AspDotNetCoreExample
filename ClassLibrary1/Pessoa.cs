@@ -28,8 +28,9 @@ namespace Domain
         public int CPf { get; set; }
         public int Cep { get; set; }
         public string Password { get; set; }
+        public string Tipo { get; set; }
 
-        
+
 
         //public override string ToString()
         //{

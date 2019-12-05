@@ -15,9 +15,16 @@ namespace JornalOnline.Controllers
 
         public IActionResult Index()
         {
+           
             return View();
         }
-        
+
+        public IActionResult HomeColunista()
+        {
+
+            return View();
+        }
+
         public IActionResult CadastroCliente()
         {
             return View();
@@ -85,11 +92,34 @@ namespace JornalOnline.Controllers
             {
                 if (Password == pessoa.Password)
                 {
-                    return View("HomeCliente");
+                    if (pessoa.Tipo.Equals("Cliente"))
+                    {
+                        return View("HomeCliente");
+                    }
+                    else
+                    {
+                        return View("HomeColunista");
+                    }
+                    
                 }
             }
             return View();
         }
 
+
+        public IActionResult CadastrarArtigo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CadastrarArtigos(Colunista c)
+        {
+
+            return View();
+        }
+
     }
+
+    
 }

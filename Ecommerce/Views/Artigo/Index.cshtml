@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    @model Artigo
+}
+
+<h2>CadastrarArtigo</h2>
+
+<fieldset>
+    <div class="form-group" id="Tipo">
+        <label asp-for="Paginas"></label>
+        <input type="text" asp-for="Paginas"
+               class="form-control" />
+    </div>
+    <div class="form-group" id="Tipo">
+        <label asp-for="Tema"></label>
+        <input type="text" asp-for="Tema"
+               class="form-control" />
+    </div>
+    <div class="form-group" id="Tipo">
+        <label asp-for="Titulo"></label>
+        <input type="text" asp-for="Titulo"
+               class="form-control" />
+    </div>
+    <div class="form-group" id="Tipo">
+        <label asp-for="Texto"></label>
+        <input type="text" asp-for="Texto"
+               class="form-control" />
+    </div>
+    <div id="Tema" class="form-group">
+        <select asp-items="@ViewBag.Temas"
+                class="form-control" name="drpTema">
+            <option> -- SELECIONE -- </option>
+        </select>
+    </div>
+
+
+
+    <input type="submit" class="btn btn-success"
+           value="Cadastrar" asp-action="CadastrarArtigo"
+           asp-controller="Artigo" />
+
+</fieldset>
