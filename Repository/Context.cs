@@ -20,6 +20,7 @@ namespace Repository
         public DbSet<Tema> Temas { get; set; }
         public DbSet<Artigo> Artigos { get; set; }
         public DbSet<Contratacao> Contratacoes { get; set; }
+        public DbSet<ContratacaoColunista> ContratacoesColunista { get; set; }
 
     }
 }

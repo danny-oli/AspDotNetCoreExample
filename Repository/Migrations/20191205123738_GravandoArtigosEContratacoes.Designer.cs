@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
 namespace Repository.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20191205123738_GravandoArtigosEContratacoes")]
+    partial class GravandoArtigosEContratacoes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,9 +29,9 @@ namespace Repository.Migrations
 
                     b.Property<int?>("ClientePessoaId");
 
-                    b.Property<DateTime>("CriadoEm");
+                    b.Property<int?>("ColunistaAutorPessoaId");
 
-                    b.Property<string>("NomeColunista");
+                    b.Property<DateTime>("CriadoEm");
 
                     b.Property<int>("Paginas");
 
@@ -44,6 +46,8 @@ namespace Repository.Migrations
                     b.HasKey("IdArtigo");
 
                     b.HasIndex("ClientePessoaId");
+
+                    b.HasIndex("ColunistaAutorPessoaId");
 
                     b.ToTable("Artigos");
                 });
@@ -79,13 +83,15 @@ namespace Repository.Migrations
 
                     b.Property<int?>("ArtigoIdArtigo");
 
-                    b.Property<string>("ColunistaAutor");
+                    b.Property<int?>("ColunistaAutorPessoaId");
 
                     b.Property<DateTime>("DataHoraContratacao");
 
                     b.HasKey("IdContratacaoColunista");
 
                     b.HasIndex("ArtigoIdArtigo");
+
+                    b.HasIndex("ColunistaAutorPessoaId");
 
                     b.ToTable("ContratacoesColunista");
                 });
@@ -124,8 +130,6 @@ namespace Repository.Migrations
                     b.Property<string>("ArtigoTexto");
 
                     b.Property<string>("ArtigoTitulo");
-
-                    b.Property<int>("ArtigoValor");
 
                     b.Property<string>("CPf");
 
@@ -380,6 +384,10 @@ namespace Repository.Migrations
                     b.HasOne("Domain.Cliente")
                         .WithMany("Artigos")
                         .HasForeignKey("ClientePessoaId");
+
+                    b.HasOne("Domain.Pessoa", "ColunistaAutor")
+                        .WithMany()
+                        .HasForeignKey("ColunistaAutorPessoaId");
                 });
 
             modelBuilder.Entity("Domain.Contratacao", b =>
@@ -398,6 +406,10 @@ namespace Repository.Migrations
                     b.HasOne("Domain.Artigo", "Artigo")
                         .WithMany()
                         .HasForeignKey("ArtigoIdArtigo");
+
+                    b.HasOne("Domain.Pessoa", "ColunistaAutor")
+                        .WithMany()
+                        .HasForeignKey("ColunistaAutorPessoaId");
                 });
 
             modelBuilder.Entity("Domain.Pessoa", b =>

@@ -13,10 +13,10 @@ namespace Domain
         {
 
         }
-        public Artigo(Colunista c, Tema t)
+        public Artigo(Pessoa p)
         {
-            this.ColunistaAutor = c;
-            this.Tema = t;
+            
+         
             CriadoEm = DateTime.Now;
             
         }
@@ -24,8 +24,8 @@ namespace Domain
         [Key]
         public int IdArtigo { get; set; }
         public DateTime CriadoEm { get; set; }
-        public Pessoa ColunistaAutor { get; set; }
-        public Tema Tema { get; set; }
+        public string NomeColunista { get; set; }
+        public string Tema { get; set; }
         public string Titulo { get; set; }
         public string Texto { get; set; }
         public int Valor { get; set; }
@@ -34,7 +34,7 @@ namespace Domain
 
         public override string ToString()
         {
-            return "Colunista: " + ColunistaAutor.Nome + " | Titulo: " + Titulo + " Texto: " + Texto;
+            return "Colunista: " + NomeColunista + " | Titulo: " + Titulo + " Texto: " + Texto;
         }
     }
 

@@ -10,6 +10,7 @@ namespace Repository
     public class ContratacaoDAO
     {
         public static List<Contratacao> listContratacoes;
+        public static List<ContratacaoColunista> listContratacoesColunista;
         private readonly Context ctx;
 
         public ContratacaoDAO(Context context)
@@ -24,6 +25,15 @@ namespace Repository
             return true;
            
         }
+
+        public bool SalvarContratacaoColunista(ContratacaoColunista c)
+        {
+            ctx.ContratacoesColunista.Add(c);
+            ctx.SaveChanges();
+            return true;
+
+        }
+
 
         public  Contratacao BuscarContratoPorId(Contratacao c)
         {
@@ -104,7 +114,7 @@ namespace Repository
                 {
                     dynamic d = new
                     {
-                        nomeColunista = c.Artigo.ColunistaAutor.Nome,
+                        nomeColunista = c.Artigo.NomeColunista,
                         titulo = c.Artigo.Titulo,
                         //temaDynamic = c.Artigo.Tema.tema,
                         texto = c.Artigo.Texto,

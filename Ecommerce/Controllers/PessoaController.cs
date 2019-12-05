@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Repository;
 
@@ -48,11 +49,12 @@ namespace JornalOnline.Controllers
 
             if (usuario.Tipo == "Colunista")
             {
+               
                 return RedirectToAction("HomeColunista");
             }
             else
             {
-                return RedirectToAction("HomeCliente");
+                return RedirectToAction("HomeCliente", p);
             }
             //  }
 
@@ -63,26 +65,27 @@ namespace JornalOnline.Controllers
 
         public IActionResult HomeColunista()
         {
-
+            ViewBag.Pessoas = new SelectList(_pessoaDAO.ListarPessoas(), "PessoaId", "Nome");
             return View();
         }
 
         [HttpPost]
-        public IActionResult HomeColunista(string cpf, string Password)
+        public IActionResult HomeColunista(Pessoa p)
         {
-            Pessoa pessoa = _pessoaDAO.BuscarPessoaPorCpf(cpf);
+            Pessoa pessoa = _pessoaDAO.BuscarPessoaPorCpf(p.CPf);
 
             if (pessoa != null)
             {
-                if (Password == pessoa.Password)
+                if (p.Password == pessoa.Password)
                 {
-                    return View(_pessoaDAO.BuscarPessoaPorCpf(cpf));
+                    ViewBag.Pessoas = new SelectList(_pessoaDAO.ListarPessoas(), "PessoaId", "Nome");
+                    return View(_pessoaDAO.BuscarPessoaPorCpf(p.CPf));
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Usuário não encontrado!");
-                return View();
+                ModelState.AddModelError("", "Dados Incorretos!");
+                return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Usuário não encontrado!");
             return RedirectToAction("Index", "Home");

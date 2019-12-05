@@ -11,17 +11,17 @@ namespace Domain
 
         }
 
-        public ContratacaoColunista(Colunista c, Artigo a)
+        public ContratacaoColunista( Artigo a)
         {
             DataHoraContratacao = DateTime.Now;
-            ColunistaAutor = c;
+           
             Artigo = a;
            
         }
 
         [Key]
         public int IdContratacaoColunista { get; set; }
-        public Colunista ColunistaAutor { get; set; }
+        public string ColunistaAutor { get; set; }
         public DateTime DataHoraContratacao { get; set; }
         public Artigo Artigo { get; set; }
         

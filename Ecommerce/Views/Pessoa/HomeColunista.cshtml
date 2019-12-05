@@ -9,12 +9,63 @@
 
 <form method="post">
     <fieldset>
-        
-            <input asp-action="CadastroArtigo" asp-controller="Artigo" type="submit" value="Cadastrar Artigo" class="btn btn-success" />
-        
-
         <input type="submit" class="btn btn-success" value="Listar Artigos Cadastrados" asp-action="ListarArtigosCadastrados"
                asp-controller="Artigo" />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <h2>Cadastro Artigo</h2>
+
+
+        <form asp-action="CadastrarArtigo" asp-controller="Artigo" method="post">
+
+            
+
+            <fieldset>
+                <div class="form-group" id="Tipo">
+                    <label asp-for="@Model.ArtigoPaginas"></label>
+                    <input type="text" asp-for="@Model.ArtigoPaginas"
+                           class="form-control" />
+                </div>
+                <div class="form-group" id="Tipo">
+                    <label asp-for="@Model.ArtigoTitulo"></label>
+                    <input type="text" asp-for="@Model.ArtigoTitulo"
+                           class="form-control" />
+                </div>
+                <div class="form-group" id="Tipo">
+                    <label asp-for="@Model.ArtigoTexto"></label>
+                    <input asp-for="@Model.ArtigoTexto" type="text" class="form-control" />
+                </div>
+                <div class="form-group" id="Tema">
+                    <label asp-for="@Model.ArtigoTema"></label>
+                    <input type="text" asp-for="@Model.ArtigoTema"
+                           class="form-control" />
+                </div>
+                <div id="Categoria" class="form-group">
+                    <label>Colunista</label>
+                    <select asp-items="@ViewBag.Pessoa" class="form-control" name="drpPessoa">
+                        <option> --Selecione--</option>
+                    </select>
+                </div>
+
+                <input asp-action="CadastrarArtigo" asp-controller="Artigo" type="submit" value="Cadastrar Artigo" class="btn btn-secondary" />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+
+
+            </fieldset>
+        </form>
+
+
+        @*<input asp-action="CadastroArtigo" asp-controller="Artigo"  type="submit" value="Cadastrar Artigo" class="btn btn-success" />*@
+
+
+
     </fieldset>
 </form>
 

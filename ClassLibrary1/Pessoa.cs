@@ -29,6 +29,12 @@ namespace Domain
         public string Password { get; set; }
         public string Tipo { get; set; }
         public Endereco Endereco { get; set; }
+        public int ArtigoPaginas { get; set; }
+        public string ArtigoTitulo { get; set; }
+        public string ArtigoTexto { get; set; }
+        public string ArtigoTema { get; set; }
+        public int ArtigoValor { get; set; }
+        
 
 
 

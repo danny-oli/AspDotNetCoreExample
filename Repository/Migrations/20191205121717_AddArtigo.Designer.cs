@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
 namespace Repository.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20191205121717_AddArtigo")]
+    partial class AddArtigo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,13 +29,13 @@ namespace Repository.Migrations
 
                     b.Property<int?>("ClientePessoaId");
 
-                    b.Property<DateTime>("CriadoEm");
+                    b.Property<int?>("ColunistaAutorPessoaId");
 
-                    b.Property<string>("NomeColunista");
+                    b.Property<DateTime>("CriadoEm");
 
                     b.Property<int>("Paginas");
 
-                    b.Property<string>("Tema");
+                    b.Property<int?>("TemaIdTema");
 
                     b.Property<string>("Texto");
 
@@ -44,6 +46,10 @@ namespace Repository.Migrations
                     b.HasKey("IdArtigo");
 
                     b.HasIndex("ClientePessoaId");
+
+                    b.HasIndex("ColunistaAutorPessoaId");
+
+                    b.HasIndex("TemaIdTema");
 
                     b.ToTable("Artigos");
                 });
@@ -69,25 +75,6 @@ namespace Repository.Migrations
                     b.HasIndex("ClienteContrataPessoaId");
 
                     b.ToTable("Contratacoes");
-                });
-
-            modelBuilder.Entity("Domain.ContratacaoColunista", b =>
-                {
-                    b.Property<int>("IdContratacaoColunista")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ArtigoIdArtigo");
-
-                    b.Property<string>("ColunistaAutor");
-
-                    b.Property<DateTime>("DataHoraContratacao");
-
-                    b.HasKey("IdContratacaoColunista");
-
-                    b.HasIndex("ArtigoIdArtigo");
-
-                    b.ToTable("ContratacoesColunista");
                 });
 
             modelBuilder.Entity("Domain.Endereco", b =>
@@ -124,8 +111,6 @@ namespace Repository.Migrations
                     b.Property<string>("ArtigoTexto");
 
                     b.Property<string>("ArtigoTitulo");
-
-                    b.Property<int>("ArtigoValor");
 
                     b.Property<string>("CPf");
 
@@ -380,6 +365,14 @@ namespace Repository.Migrations
                     b.HasOne("Domain.Cliente")
                         .WithMany("Artigos")
                         .HasForeignKey("ClientePessoaId");
+
+                    b.HasOne("Domain.Pessoa", "ColunistaAutor")
+                        .WithMany()
+                        .HasForeignKey("ColunistaAutorPessoaId");
+
+                    b.HasOne("Domain.Tema", "Tema")
+                        .WithMany()
+                        .HasForeignKey("TemaIdTema");
                 });
 
             modelBuilder.Entity("Domain.Contratacao", b =>
@@ -391,13 +384,6 @@ namespace Repository.Migrations
                     b.HasOne("Domain.Cliente", "ClienteContrata")
                         .WithMany()
                         .HasForeignKey("ClienteContrataPessoaId");
-                });
-
-            modelBuilder.Entity("Domain.ContratacaoColunista", b =>
-                {
-                    b.HasOne("Domain.Artigo", "Artigo")
-                        .WithMany()
-                        .HasForeignKey("ArtigoIdArtigo");
                 });
 
             modelBuilder.Entity("Domain.Pessoa", b =>
